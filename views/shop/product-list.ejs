@@ -1,0 +1,81 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/forms.css">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+
+    <body class="image-fluid"
+ style="background-repeat: no-repeat; background-attachment: fixed; background-position: center; background-size: cover; background-image: url(https://images.unsplash.com/photo-1567538096601-b3177180fa5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1049&q=80);">
+
+        <%- include('../includes/navigation.ejs') %>
+
+            <main>
+                <form action="/products" id="filterForm" class="product-form" method="POST" style="position: relative;"> 
+                   
+                    <div class="form-control">
+                        <label for="religion">Filter By Religion</label>
+                        <input type="text" name="religion" id="religion">
+                    </div>
+
+                    <div class="form-control">
+                        <label for="Gender">Filter By Gender</label>
+                        <input type="text" name="gender" id="gender">
+                    </div>
+                    <div class="form-control">
+                        <label for="country">Filter By Country</label>
+                        <input type="text" name="country" id="country">
+                    </div>
+                  
+                    <div class="form-control>
+                      <!-- <div class="col-sm-3"> -->
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit" name="submit">Filter Profiles</button>
+                      </div>
+                    <!-- </div> -->
+                  </form>
+
+                  
+
+                <% if (prods.length > 0) { %>
+                    <div class="grid";">
+                        <% for (let product of prods) { %>
+                            <article class="card product-item"  style = "background-color: #A3EBDF; border-radius: 10%;">
+                                <header class="card__header">
+                                    <h1 class="product__title">
+                                        <%= product.firstName %>&nbsp;<%=product.lastName%>
+                                    </h1>
+                                </header>
+                                <div class="card__image" >
+                                    <img src="/<%= product.imageUrl %>" alt="<%= product.firstName %>">
+                                </div>
+                                <div class="card__content">
+                                    <h2 class="product__price">
+                                        <%= product.gender %>
+                                    </h2>
+                                    <p class="product__description">
+                                        <%= product.country %>
+                                    </p>
+                                    <p class="product__description">
+                                        <%= product.religion %>
+                                    </p>
+                                </div>
+                                <div class="card__actions">
+                                    <a href="/products/<%= product._id %>" class="btn">Details</a>
+                                    <% if (isAuthenticated) { %>
+                                        <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+                                    <% } %>
+                                </div>
+                            </article>
+                            <% } %>
+                    </div>
+                    <% } else { %>
+                        <h1>No Profiles Found!</h1>
+                        <% } %>
+                        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            </main>
+            <%- include('../includes/end.ejs') %>
